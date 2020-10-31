@@ -131,7 +131,7 @@ class QuestionsController extends Controller
         //redirect to homepage (question listing)
         //with("success"...) --> means it will put into session as a session variable
         //so that alert box can get the message
-        return redirect()->route('questions.index')->with('success',"Your question has been updated");
+        return redirect()->route('questions.index')->with('success',"Your question has been updated.");
     }
 
     /**
@@ -142,6 +142,8 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+        $question->delete();
+
+        return redirect()->route('questions.index')->with('success', "Your question has been deleted.");
     }
 }
