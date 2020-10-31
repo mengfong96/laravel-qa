@@ -73,7 +73,16 @@ class Question extends Model
      */
     public function getUrlAttribute()
     {
-        return route("questions.show", $this->id);
+        /**
+         * Connected file:
+         * RouteServiceProvider.php
+         *
+         * Function: to make the route address more readable instead of question id
+         * for example: http://localhost:8000/question/et-omnis-qui-dolor-animi-ipsum-rerum-updated
+         * instead of this: http://localhost:8000/question/1
+         */
+
+        return route("questions.show", $this->slug);
     }
 
     /**
@@ -108,5 +117,10 @@ class Question extends Model
         }
 
         return "unanswered";
+    }
+
+    public function getBodyHTMLAttribute()
+    {
+        return \Parsedown::instance()->text($this->body);
     }
 }
