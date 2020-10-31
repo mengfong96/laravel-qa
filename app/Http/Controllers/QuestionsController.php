@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AskQuestionRequest;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -77,9 +78,17 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    //we will using different request
+    public function store(AskQuestionRequest $request)
     {
-        //
+        # 1. get current user
+        # 2. get question
+        # 3. create and sent into db
+        $request->user()->questions()->create($request->only('title','body'));
+
+        //redirect to homepage (question listing)
+        //with("success"...) --> means it will put into session as a session variable
+        return redirect()->route('questions.index')->with('success',"Your question has been submitted");
     }
 
     /**
