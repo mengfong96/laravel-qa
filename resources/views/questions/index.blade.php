@@ -6,21 +6,28 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
+
                     <div class="d-flex align-items-center">
                         <h2>All Questions</h2>
+
                         <div class="ml-auto">
                             <a href="{{ route('questions.create') }}" class="btn btn-outline-secondary">Ask Question</a>
                         </div>
-                    </div>
 
+                    </div>
 
                 </div>
 
                 <div class="card-body">
 
+                    {{-- Include the _message blade file, when question is submitted, if success, then will display the message stored in sesison --}}
+                    @include ('layouts._message')
+
                     @foreach ($questions as $question)
                         <div class="media">
+
                             <div class="d-flex flex-column counters">
+
                                 {{-- hold the numbers of vote --}}
                                 <div class="vote">
                                     <strong>{{ $question->votes }}</strong> {{ Str::plural('vote', $question->votes) }}
