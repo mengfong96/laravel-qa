@@ -11,6 +11,23 @@
 
                     @foreach ($questions as $question)
                         <div class="media">
+                            <div class="d-flex flex-column counters">
+                                {{-- hold the numbers of vote --}}
+                                <div class="vote">
+                                    <strong>{{ $question->votes }}</strong> {{ Str::plural('vote', $question->votes) }}
+                                </div>
+
+                                {{-- status is depends on the value passed from database,use accesor in Question model to modify the return value, then applied the CSS --}}
+                                <div class="status {{ $question->status }}">
+                                    <strong>{{ $question->answers }}</strong> {{ Str::plural('answer', $question->answers) }}
+                                </div>
+
+                                <div class="view">
+                                    {{ $question->views . " " . Str::plural('view', $question->views) }}
+                                </div>
+
+                            </div>
+
                             <div class="media-body">
                                 <h3 class="mt-0">
                                     {{-- href address will go to Question Model::getUrlAttribute function --}}
@@ -19,7 +36,6 @@
 
                                 <p class="lead">
                                     Asked by
-
                                     {{-- href address will go to User Model::getUrlAttribute function --}}
                                     <a href="{{ $question->user->url }}">{{ $question->user->name }}</a>
 
@@ -29,8 +45,10 @@
 
                                 {{-- limit the question text length --}}
                                 {{ Str::limit($question->body, 250) }}
+
                             </div>
                         </div>
+
                         <hr>
                     @endforeach
 
