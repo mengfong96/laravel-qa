@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
@@ -15,13 +16,23 @@ class QuestionsController extends Controller
     public function index()
     {
         /**
+         * when we want to see the query log
+         * this will be replace by laravel-debug-bar
+         */
+        // DB::enableQueryLog();
+        // view('questions.index', compact("questions"))->render();
+        // dd(DB::getQueryLog());
+
+        /**
          * Below will get 5 record per page,
          * and sort by descending manner
          * (latest)
+         *
+         * with('user') will go to Question Controller 'user" method
          */
-        $questions = Question::latest()->paginate(5);
+        $questions = Question::with('user')->latest()->paginate(5);
 
-        /**
+        /**.
          * compact() function
          * --> it will pass the data to the view()
          * --> we just need to put double quote ("") with the variable name

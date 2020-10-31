@@ -12,7 +12,22 @@
                     @foreach ($questions as $question)
                         <div class="media">
                             <div class="media-body">
-                                <h3 class="mt-0">{{ $question->title }}</h3>
+                                <h3 class="mt-0">
+                                    {{-- href address will go to Question Model::getUrlAttribute function --}}
+                                    <a href="{{ $question->url }}">{{ $question->title }}</a>
+                                </h3>
+
+                                <p class="lead">
+                                    Asked by
+
+                                    {{-- href address will go to User Model::getUrlAttribute function --}}
+                                    <a href="{{ $question->user->url }}">{{ $question->user->name }}</a>
+
+                                    {{-- href address will go to Question Model::getCreatedDateAttribute function --}}
+                                    <small class="textt-muted">{{ $question->created_date }}</small>
+                                </p>
+
+                                {{-- limit the question text length --}}
                                 {{ Str::limit($question->body, 250) }}
                             </div>
                         </div>
