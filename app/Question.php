@@ -93,4 +93,20 @@ class Question extends Model
          */
         return $this->created_at->diffForHumans();
     }
+
+    /**
+     * Get data from database (original is a number)
+     * There is a checking in index.blade.php, when displaying the status
+     */
+    public function getStatusAttribute()
+    {
+        if ($this->answers > 0) {
+            if ($this->best_answer_id) {
+                return "answered-accepted";
+            }
+            return "answered";
+        }
+
+        return "unanswered";
+    }
 }
