@@ -110,7 +110,8 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
-        //
+        //auto fetch the id from request
+        return view("questions.edit", compact('question'));
     }
 
     /**
@@ -120,9 +121,17 @@ class QuestionsController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(AskQuestionRequest $request, Question $question)
     {
-        //
+        # 1. get current user
+        # 2. get question
+        # 3. create and sent into db
+        $question->update($request->only('title','body'));
+
+        //redirect to homepage (question listing)
+        //with("success"...) --> means it will put into session as a session variable
+        //so that alert box can get the message
+        return redirect()->route('questions.index')->with('success',"Your question has been updated");
     }
 
     /**
