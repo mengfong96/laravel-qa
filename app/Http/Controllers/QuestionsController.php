@@ -119,8 +119,18 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
-        //auto fetch the id from request
+        # this way will prevent modify existing code
+        if(\Gate::denies('update-question', $question)){
+            abort(403, "Access Denied");
+        }
         return view("questions.edit", compact('question'));
+
+        # another way to deliver same expectation
+        // if(\Gate::allows('update-question', $question)){
+        //     return view("questions.edit", compact('question'));
+        // }
+        // abort(403, "Access Denied");
+
     }
 
     /**
@@ -132,6 +142,9 @@ class QuestionsController extends Controller
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
+        if(\Gate::denies('update-question', $question)){
+            abort(403, "Access Denied");
+        }
         # 1. get current user
         # 2. get question
         # 3. create and sent into db
@@ -151,6 +164,10 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
+        if(\Gate::denies('delete-question', $question)){
+            abort(403, "Access Denied");
+        }
+
         $question->delete();
 
         return redirect()->route('questions.index')->with('success', "Your question has been deleted.");
