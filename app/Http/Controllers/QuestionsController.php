@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth',['except' => ['index', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -119,6 +122,8 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
+        # from QuestionPolicy
+        $this->authorize("update", $question);
         //auto fetch the id from request
         return view("questions.edit", compact('question'));
     }
@@ -132,6 +137,9 @@ class QuestionsController extends Controller
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
+        # from QuestionPolicy
+        $this->authorize("update", $question);
+
         # 1. get current user
         # 2. get question
         # 3. create and sent into db
@@ -151,6 +159,9 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
+        # from QuestionPolicy
+        $this->authorize("delete", $question);
+
         $question->delete();
 
         return redirect()->route('questions.index')->with('success', "Your question has been deleted.");

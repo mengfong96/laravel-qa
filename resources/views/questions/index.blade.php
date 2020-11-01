@@ -11,7 +11,9 @@
                         <h2>All Questions</h2>
 
                         <div class="ml-auto">
+                            @if (Auth::user())
                             <a href="{{ route('questions.create') }}" class="btn btn-outline-secondary">Ask Question</a>
+                            @endif
                         </div>
 
                     </div>
@@ -51,14 +53,17 @@
                                         <a href="{{ $question->url }}">{{ $question->title }}</a>
                                     </h3>
                                     <div class="ml-auto"> {{-- margin left auto class --}}
+                                        @can('update', $question)
                                         <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-sm btn-outline-info">Edit</a>
-
+                                        @endcan
+                                        @can('delete', $question)
                                         <form class="form-delete" action="{{ route('questions.destroy', $question->id) }}" method="post">
                                             @method('DELETE')
                                             @csrf
 
                                             <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
                                         </form>
+                                        @endcan
                                     </div>
                                 </div>
 
